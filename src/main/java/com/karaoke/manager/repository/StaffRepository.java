@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 
-    @EntityGraph(value = "staff-with-permissions")
-    Staff findByUsername(String username);
+  @EntityGraph(value = "staff-with-permissions")
+  Staff findByUsername(String username);
 }

@@ -11,17 +11,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
-    private String name;
+  private String name;
 
-    private Double price;
+  private Double price;
 
-    @ManyToMany
-    @JoinTable(name = "order_product",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Order> orders = new ArrayList<>();
+  @ManyToMany
+  @JoinTable(
+      name = "order_product",
+      joinColumns = @JoinColumn(name = "product_id"),
+      inverseJoinColumns = @JoinColumn(name = "order_id"))
+  private List<Order> orders = new ArrayList<>();
 }

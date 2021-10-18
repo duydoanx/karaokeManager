@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Service @Transactional @Slf4j
+@Service
+@Transactional
+@Slf4j
 public class SimpleStaffUserService implements StaffUserService, UserDetailsService {
 
   private final StaffRepository staffRepository;
@@ -61,7 +63,9 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
     log.info("Adding permission {} to role {}", permissionCodes, roleCodeName);
     Role role = roleRepository.findByCodeName(roleCodeName);
     List<Permission> permissions = new ArrayList<>();
-    permissionCodes.forEach(permissionCode -> permissions.add(permissionRepository.findByPermissionCode(permissionCode)));
+    permissionCodes.forEach(
+        permissionCode ->
+            permissions.add(permissionRepository.findByPermissionCode(permissionCode)));
     role.getPermissions().addAll(permissions);
   }
 

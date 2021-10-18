@@ -14,14 +14,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "booking_status")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class BookingStatus extends BaseEntity{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookingStatus extends BaseEntity {
 
-    @Column(name = "code_name")
-    private String codeName;
+  @Column(name = "code_name")
+  private String codeName;
 
-    private String description;
+  private String description;
 
-    @OneToMany(mappedBy = "bookingStatus")
-    private List<RoomBooking> bookings = new ArrayList<>();
+  @OneToMany(mappedBy = "bookingStatus")
+  private List<RoomBooking> bookings = new ArrayList<>();
 }

@@ -8,11 +8,17 @@ import java.util.List;
 
 public interface StaffUserService {
 
-    Staff saveStaff(Staff staff);
-    Role saveRole(Role role);
-    Permission savePermission(Permission permission);
-    void addPermissionToRole(List<String> permissionCodes, String roleCodeName);
-    void addRoleToStaff(String username, String roleCodeName);
-    Staff getStaff(String username);
-    List<Staff> getStaffs();
+  Staff saveStaff(Staff staff);
+
+  Role saveRole(Role role);
+
+  Permission savePermission(Permission permission);
+
+  void addPermissionToRole(List<String> permissionCodes, String roleCodeName);
+
+  void addRoleToStaff(String username, String roleCodeName);
+
+  Staff getStaff(String username);
+
+  List<Staff> getStaffs();
 }

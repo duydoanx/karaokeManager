@@ -11,16 +11,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "rooms")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Room extends BaseEntity {
 
-    private String name;
+  private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private RoomType roomType;
+  @ManyToOne
+  @JoinColumn(name = "type_id")
+  private RoomType roomType;
 
-    @OneToMany(mappedBy = "room")
-    private List<RoomBooking> roomBookings = new ArrayList<>();
+  @OneToMany(mappedBy = "room")
+  private List<RoomBooking> roomBookings = new ArrayList<>();
 }

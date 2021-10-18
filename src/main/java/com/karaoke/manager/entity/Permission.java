@@ -11,18 +11,21 @@ import java.util.List;
 
 @Entity
 @Table(name = "permissions")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class Permission extends BaseEntity{
+public class Permission extends BaseEntity {
 
-    @Column(name = "permission_code")
-    private String permissionCode;
+  @Column(name = "permission_code")
+  private String permissionCode;
 
-    private String description;
+  private String description;
 
-    @ManyToMany
-    @JoinTable(name = "role_permission",
-        joinColumns = @JoinColumn(name = "permission_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
+  @ManyToMany
+  @JoinTable(
+      name = "role_permission",
+      joinColumns = @JoinColumn(name = "permission_id"),
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private List<Role> roles = new ArrayList<>();
 }

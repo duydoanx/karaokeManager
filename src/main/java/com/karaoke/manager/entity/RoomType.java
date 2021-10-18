@@ -14,15 +14,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "room_types")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class RoomType extends BaseEntity{
+public class RoomType extends BaseEntity {
 
-    private String name;
+  private String name;
 
-    @Column(name = "code_name")
-    private String codeName;
+  @Column(name = "code_name")
+  private String codeName;
 
-    @OneToMany(mappedBy = "roomType")
-    private List<Room> rooms = new ArrayList<>();
+  @OneToMany(mappedBy = "roomType")
+  private List<Room> rooms = new ArrayList<>();
 }

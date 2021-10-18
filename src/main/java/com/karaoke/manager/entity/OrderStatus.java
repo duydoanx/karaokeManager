@@ -13,15 +13,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "order_status")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class OrderStatus extends BaseEntity{
+public class OrderStatus extends BaseEntity {
 
-    @Column(name = "status_code")
-    private String statusCode;
+  @Column(name = "status_code")
+  private String statusCode;
 
-    private String description;
+  private String description;
 
-    @OneToMany(mappedBy = "status")
-    private List<Order> orders;
+  @OneToMany(mappedBy = "status")
+  private List<Order> orders;
 }
