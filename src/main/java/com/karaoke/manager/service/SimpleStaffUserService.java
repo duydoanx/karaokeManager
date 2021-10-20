@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
   private final StaffRepository staffRepository;
   private final RoleRepository roleRepository;
   private final PermissionRepository permissionRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -43,6 +45,7 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
   @Override
   public Staff saveStaff(Staff staff) {
     log.info("Saving staff {}", staff.getUsername());
+    staff.setPassword(passwordEncoder.encode(staff.getPassword()));
     return staffRepository.save(staff);
   }
 

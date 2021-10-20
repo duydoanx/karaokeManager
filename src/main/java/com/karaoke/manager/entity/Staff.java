@@ -1,5 +1,7 @@
 package com.karaoke.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.karaoke.manager.entity.support.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedEntityGraph(
-    name = "staff-with-role",
-    attributeNodes = {@NamedAttributeNode(value = "role", subgraph = "role-with-permission")},
+    name = "staff-with-roles",
+    attributeNodes = {@NamedAttributeNode(value = "role", subgraph = "role-with-permissions")},
     subgraphs = {
       @NamedSubgraph(
-          name = "role-with-permission",
+          name = "role-with-permissions",
           attributeNodes = {@NamedAttributeNode(value = "permissions")})
     })
 @Entity
@@ -26,6 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Staff extends BaseEntity {
 
+  @Column(unique = true)
   private String username;
 
   private String password;
@@ -51,6 +54,7 @@ public class Staff extends BaseEntity {
   @OneToMany(mappedBy = "staff")
   private List<RoomBooking> roomBookings = new ArrayList<>();
 
+  @JsonManagedReference
   @ManyToOne
   @JoinColumn(name = "role_id")
   private Role role;

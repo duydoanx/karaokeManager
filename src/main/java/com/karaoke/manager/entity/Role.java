@@ -1,5 +1,7 @@
 package com.karaoke.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Role extends BaseEntity {
   @Column(name = "code_name")
   private String codeName;
 
+  @JsonManagedReference
   @ManyToMany
   @JoinTable(
       name = "role_permission",
@@ -29,6 +32,7 @@ public class Role extends BaseEntity {
       inverseJoinColumns = @JoinColumn(name = "permission_id"))
   private List<Permission> permissions = new ArrayList<>();
 
+  @JsonBackReference
   @OneToMany(mappedBy = "role")
   private List<Staff> staffs = new ArrayList<>();
 }

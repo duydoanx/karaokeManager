@@ -31,7 +31,7 @@ public class Guest extends BaseEntity {
 
   private String address2;
 
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", unique = true)
   private String phoneNumber;
 
   private String email;

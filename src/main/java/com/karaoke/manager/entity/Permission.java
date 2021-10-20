@@ -1,5 +1,6 @@
 package com.karaoke.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Permission extends BaseEntity {
 
   private String description;
 
+  @JsonBackReference
   @ManyToMany
   @JoinTable(
       name = "role_permission",
