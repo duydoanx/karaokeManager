@@ -18,6 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 public class Permission extends BaseEntity {
 
+  public Permission(String permissionCode, String description) {
+    this.permissionCode = permissionCode;
+    this.description = description;
+  }
+
   @Column(name = "permission_code")
   private String permissionCode;
 

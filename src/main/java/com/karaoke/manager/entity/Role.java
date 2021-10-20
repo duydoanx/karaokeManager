@@ -19,6 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 public class Role extends BaseEntity {
 
+  public Role(String name, String codeName) {
+    this.name = name;
+    this.codeName = codeName;
+  }
+
   private String name;
 
   @Column(name = "code_name")
@@ -35,4 +40,5 @@ public class Role extends BaseEntity {
   @JsonBackReference
   @OneToMany(mappedBy = "role")
   private List<Staff> staffs = new ArrayList<>();
+
 }
