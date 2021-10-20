@@ -1,6 +1,5 @@
 package com.karaoke.manager.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.karaoke.manager.entity.support.Gender;
 import lombok.AllArgsConstructor;

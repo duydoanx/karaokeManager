@@ -55,19 +55,19 @@ public class ManagerApplication {
               "admin@admin"));
 
       userService.saveStaff(
-              new Staff(
-                      "manager",
-                      "1234567",
-                      "manager",
-                      "manager",
-                      Gender.MALE,
-                      "HCM1",
-                      null,
-                      "0123456789",
-                      "manager@manager"));
+          new Staff(
+              "manager",
+              "1234567",
+              "manager",
+              "manager",
+              Gender.MALE,
+              "HCM1",
+              null,
+              "0123456789",
+              "manager@manager"));
 
-      userService.addPermissionToRole(Arrays.asList("read:user", "write:user"), "ADMIN");
-      userService.addPermissionToRole(Collections.singletonList("read:user"), "Manager");
+      userService.addPermissionToRole(Arrays.asList("read:staff", "write:staff"), "ADMIN");
+      userService.addPermissionToRole(Collections.singletonList("read:staff"), "Manager");
 
       userService.addRoleToStaff("admin", "ADMIN");
       userService.addRoleToStaff("manager", "MANAGER");

@@ -1,6 +1,5 @@
 package com.karaoke.manager.dto;
 
-import com.karaoke.manager.entity.Role;
 import com.karaoke.manager.entity.support.Gender;
 import lombok.Data;
 

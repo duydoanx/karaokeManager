@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RoleDTO {
 
-    private String name;
+  private String name;
 
-    private String codeName;
+  private String codeName;
 }

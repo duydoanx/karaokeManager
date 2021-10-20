@@ -40,5 +40,4 @@ public class Role extends BaseEntity {
   @JsonBackReference
   @OneToMany(mappedBy = "role")
   private List<Staff> staffs = new ArrayList<>();
-
 }
