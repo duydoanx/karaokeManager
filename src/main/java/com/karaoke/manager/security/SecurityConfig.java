@@ -2,6 +2,7 @@ package com.karaoke.manager.security;
 
 import com.karaoke.manager.filter.CustomAuthenticationFilter;
 import com.karaoke.manager.filter.CustomAuthorizationFilter;
+import com.karaoke.manager.service.StaffUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilter(customAuthenticationFilter);
     http.addFilterBefore(
-        new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        new CustomAuthorizationFilter((StaffUserService) userDetailsService), UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean

@@ -1,4 +1,4 @@
-package com.karaoke.manager.support;
+package com.karaoke.manager.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

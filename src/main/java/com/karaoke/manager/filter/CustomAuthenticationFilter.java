@@ -2,8 +2,8 @@ package com.karaoke.manager.filter;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.karaoke.manager.security.SecurityConstant;
-import com.karaoke.manager.support.HttpSupport;
-import com.karaoke.manager.support.TokenHelper;
+import com.karaoke.manager.utils.HttpSupport;
+import com.karaoke.manager.utils.token.TokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -55,8 +55,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     User user = (User) authResult.getPrincipal();
 
-    String accessToken = TokenHelper.accessTokenGenerate(user);
-    String refreshToken = TokenHelper.refreshTokenGenerate(user);
+    String accessToken = TokenUtils.accessTokenGenerate(user);
+    String refreshToken = TokenUtils.refreshTokenGenerate(user);
 
     Map<String, String> body = new HashMap<>();
     body.put("access_token", accessToken);
