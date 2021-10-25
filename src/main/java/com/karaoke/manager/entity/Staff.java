@@ -57,4 +57,27 @@ public class Staff extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "role_id")
   private Role role;
+
+  public Staff(
+      String username,
+      String password,
+      String firstName,
+      String lastName,
+      Gender gender,
+      String address1,
+      String address2,
+      String phoneNumber,
+      String email,
+      Integer status) {
+    this.username = username;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.gender = gender;
+    this.address1 = address1;
+    this.address2 = address2;
+    this.phoneNumber = phoneNumber;
+    this.email = email;
+    this.status = status;
+  }
 }
