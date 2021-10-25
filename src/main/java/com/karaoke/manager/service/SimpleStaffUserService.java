@@ -45,7 +45,9 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
   @Override
   public Staff saveStaff(Staff staff) {
     log.info("Saving staff {}", staff.getUsername());
-    staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+    if (staff.getPassword() != null && !staff.getPassword().isEmpty()) {
+      staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+    }
     return staffRepository.save(staff);
   }
 

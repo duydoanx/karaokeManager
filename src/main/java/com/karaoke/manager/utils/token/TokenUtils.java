@@ -24,35 +24,6 @@ import java.util.stream.Collectors;
 
 public class TokenUtils {
 
-  @Getter
-  @Setter
-  @AllArgsConstructor
-  public abstract static class VerifierObject {
-    private boolean isValid;
-  }
-
-  @Getter
-  @Setter
-  public static class InvalidVerifierObject extends VerifierObject {
-    private String errorMessage;
-
-    public InvalidVerifierObject(String errorMessage) {
-      super(false);
-      this.errorMessage = errorMessage;
-    }
-  }
-
-  @Getter
-  @Setter
-  public static class ValidVerifierObject extends VerifierObject {
-    private String username;
-
-    public ValidVerifierObject(String username) {
-      super(true);
-      this.username = username;
-    }
-  }
-
   public static VerifierObject verifyToken(String tokenStartWithBearer, String secret) {
     try {
       String token = tokenStartWithBearer.substring("Bearer ".length());
@@ -66,7 +37,7 @@ public class TokenUtils {
   }
 
   public static String accessTokenGenerate(User user) {
-    Date expTime = new Date(System.currentTimeMillis() + 10 * 60 * 1000);
+    Date expTime = new Date(System.currentTimeMillis() + SecurityConstant.ACCESS_TOKEN_EXP_TIME);
     Map<String, List<String>> claims = new HashMap<>();
     claims.put(
         "role",
@@ -78,7 +49,7 @@ public class TokenUtils {
   }
 
   public static String refreshTokenGenerate(User user) {
-    Date expTime = new Date(System.currentTimeMillis() + 60 * 60 * 1000);
+    Date expTime = new Date(System.currentTimeMillis() + SecurityConstant.REFRESH_TOKEN_EXP_TIME);
     return tokenGenerate(user.getUsername(), expTime, SecurityConstant.REFRESH_TOKEN_SECRET_KEY);
   }
 
@@ -124,7 +95,7 @@ public class TokenUtils {
     String username = verifierReturnObject.getUsername();
     Staff staff = getStaff.get(username);
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority(staff.getRole().getCodeName()));
+    authorities.add(new SimpleGrantedAuthority("ROLE_" + staff.getRole().getCodeName()));
     staff
         .getRole()
         .getPermissions()
@@ -136,11 +107,41 @@ public class TokenUtils {
   }
 
   public static void invalidVerifierObjectResponse(
-      InvalidVerifierObject invalidVerifierObject, HttpServletResponse response) throws IOException {
+      InvalidVerifierObject invalidVerifierObject, HttpServletResponse response)
+      throws IOException {
     response.setStatus(HttpStatus.FORBIDDEN.value());
     response.setHeader("error", invalidVerifierObject.getErrorMessage());
     Map<String, String> body = new HashMap<>();
     body.put("error_message", invalidVerifierObject.getErrorMessage());
     HttpSupport.writeJsonObjectValue(response, body);
+  }
+
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  public abstract static class VerifierObject {
+    private boolean isValid;
+  }
+
+  @Getter
+  @Setter
+  public static class InvalidVerifierObject extends VerifierObject {
+    private String errorMessage;
+
+    public InvalidVerifierObject(String errorMessage) {
+      super(false);
+      this.errorMessage = errorMessage;
+    }
+  }
+
+  @Getter
+  @Setter
+  public static class ValidVerifierObject extends VerifierObject {
+    private String username;
+
+    public ValidVerifierObject(String username) {
+      super(true);
+      this.username = username;
+    }
   }
 }

@@ -1,4 +1,4 @@
-package com.karaoke.manager.security;
+package com.karaoke.manager.config;
 
 import com.karaoke.manager.filter.CustomAuthenticationFilter;
 import com.karaoke.manager.filter.CustomAuthorizationFilter;
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,8 +17,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  private static final String[] AUTH_WHITELIST = {
+    // -- Swagger UI v2
+    "/v2/api-docs",
+    "/swagger-resources",
+    "/swagger-resources/**",
+    "/configuration/ui",
+    "/configuration/security",
+    "/swagger-ui.html",
+    "/webjars/**",
+    // -- Swagger UI v3 (OpenAPI)
+    "/v3/api-docs/**",
+    "/swagger-ui/**"
+    // other public endpoints of your API may be appended to this array
+  };
 
   private final UserDetailsService userDetailsService;
   private final PasswordEncoder passwordEncoder;
@@ -35,11 +51,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     customAuthenticationFilter.setFilterProcessesUrl("/api/auth");
     http.csrf().disable();
     http.authorizeRequests().mvcMatchers("/api/auth/**").permitAll();
+    http.authorizeRequests().mvcMatchers(AUTH_WHITELIST).permitAll();
     http.authorizeRequests().anyRequest().authenticated();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     http.addFilter(customAuthenticationFilter);
     http.addFilterBefore(
-        new CustomAuthorizationFilter((StaffUserService) userDetailsService), UsernamePasswordAuthenticationFilter.class);
+        new CustomAuthorizationFilter((StaffUserService) userDetailsService),
+        UsernamePasswordAuthenticationFilter.class);
   }
 
   @Bean
