@@ -9,7 +9,6 @@ import com.karaoke.manager.utils.HttpSupport;
 import com.karaoke.manager.utils.token.TokenUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.User;
@@ -30,7 +29,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @Transactional
-@Tag(name = "Staff")
 public class UserController {
   private final StaffUserService staffUserService;
   private final StaffMapper staffMapper;
