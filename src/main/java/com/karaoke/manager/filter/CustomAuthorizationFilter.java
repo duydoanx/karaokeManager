@@ -31,33 +31,38 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    String rawToken = request.getHeader(AUTHORIZATION);
-    if (rawToken != null && rawToken.startsWith("Bearer ")) {
+    if (!request.getServletPath().equals("/api/auth/refresh")) {
 
-      TokenUtils.VerifierObject verifier =
-          TokenUtils.verifyToken(rawToken, SecurityConstant.ACCESS_TOKEN_SECRET_KEY);
+      String rawToken = request.getHeader(AUTHORIZATION);
+      if (rawToken != null && rawToken.startsWith("Bearer ")) {
 
-      if (verifier.isValid()) {
-        //        User user =
-        //            TokenUtils.validVerifierObjectToUser(
-        //                (TokenUtils.ValidVerifierObject) verifier, staffUserService::getStaff);
-        Staff staff =
-            staffUserService.getStaff(((TokenUtils.ValidVerifierObject) verifier).getUsername());
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + staff.getRole().getCodeName()));
-        staff
-            .getRole()
-            .getPermissions()
-            .forEach(
-                permission ->
-                    authorities.add(new SimpleGrantedAuthority(permission.getPermissionCode())));
-        UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(staff, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        filterChain.doFilter(request, response);
+        TokenUtils.VerifierObject verifier =
+            TokenUtils.verifyToken(rawToken, SecurityConstant.ACCESS_TOKEN_SECRET_KEY);
+
+        if (verifier.isValid()) {
+          //        User user =
+          //            TokenUtils.validVerifierObjectToUser(
+          //                (TokenUtils.ValidVerifierObject) verifier, staffUserService::getStaff);
+          Staff staff =
+              staffUserService.getStaff(((TokenUtils.ValidVerifierObject) verifier).getUsername());
+          List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+          authorities.add(new SimpleGrantedAuthority("ROLE_" + staff.getRole().getCodeName()));
+          staff
+              .getRole()
+              .getPermissions()
+              .forEach(
+                  permission ->
+                      authorities.add(new SimpleGrantedAuthority(permission.getPermissionCode())));
+          UsernamePasswordAuthenticationToken authenticationToken =
+              new UsernamePasswordAuthenticationToken(staff, null, authorities);
+          SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+          filterChain.doFilter(request, response);
+        } else {
+          TokenUtils.invalidVerifierObjectResponse(
+              (TokenUtils.InvalidVerifierObject) verifier, response);
+        }
       } else {
-        TokenUtils.invalidVerifierObjectResponse(
-            (TokenUtils.InvalidVerifierObject) verifier, response);
+        filterChain.doFilter(request, response);
       }
     } else {
       filterChain.doFilter(request, response);

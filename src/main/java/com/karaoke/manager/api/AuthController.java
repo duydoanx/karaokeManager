@@ -40,7 +40,7 @@ public class AuthController {
       description =
           "Lưu ý: Bearer value (JWT) phải là refresh token. Logout nếu đã nhập access token cũ và nhập refresh token vào.",
       tags = {"Auth"})
-  @GetMapping("/auth/refresh")
+  @GetMapping("/api/auth/refresh")
   public void refreshToken(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     String rawToken = request.getHeader(AUTHORIZATION);
