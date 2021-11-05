@@ -1,6 +1,7 @@
 package com.karaoke.manager.filter;
 
 import com.auth0.jwt.algorithms.Algorithm;
+import com.karaoke.manager.entity.support.ResponseApi;
 import com.karaoke.manager.security.SecurityConstant;
 import com.karaoke.manager.utils.HttpSupport;
 import com.karaoke.manager.utils.token.TokenUtils;
@@ -64,7 +65,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     Map<String, String> body = new HashMap<>();
     body.put("access_token", accessToken);
     body.put("refresh_token", refreshToken);
-    HttpSupport.writeJsonObjectValue(response, body);
+    HttpSupport.writeJsonMapObjectValue(response, new ResponseApi<>(HttpStatus.OK.value(), body));
   }
 
   @Override

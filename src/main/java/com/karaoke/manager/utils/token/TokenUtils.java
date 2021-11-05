@@ -109,11 +109,7 @@ public class TokenUtils {
   public static void invalidVerifierObjectResponse(
       InvalidVerifierObject invalidVerifierObject, HttpServletResponse response)
       throws IOException {
-    //    response.setStatus(HttpStatus.FORBIDDEN.value());
     response.setHeader("error", invalidVerifierObject.getErrorMessage());
-    //    Map<String, String> body = new HashMap<>();
-    //    body.put("error_message", invalidVerifierObject.getErrorMessage());
-    //    HttpSupport.writeJsonObjectValue(response, body);
     HttpSupport.writeErrorMessage(
         response, invalidVerifierObject.getErrorMessage(), HttpStatus.FORBIDDEN);
   }

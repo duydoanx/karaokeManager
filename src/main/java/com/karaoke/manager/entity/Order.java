@@ -33,4 +33,6 @@ public class Order extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "status_id")
   private OrderStatus status;
+
+
 }
