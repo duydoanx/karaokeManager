@@ -20,6 +20,11 @@ import java.util.List;
 @AllArgsConstructor
 public class BookingStatus extends BaseEntity {
 
+  public static final String PENDING = "PENDING";
+  public static final String BOOKED = "BOOKED";
+  public static final String DONE = "DONE";
+  public static final String CANCEL = "CANCEL";
+
   @Column(name = "code_name")
   private String codeName;
 

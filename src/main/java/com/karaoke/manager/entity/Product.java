@@ -5,8 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -21,10 +22,11 @@ public class Product extends BaseEntity {
 
   private Double price;
 
-  @ManyToMany
-  @JoinTable(
-      name = "order_product",
-      joinColumns = @JoinColumn(name = "product_id"),
-      inverseJoinColumns = @JoinColumn(name = "order_id"))
-  private List<Order> orders = new ArrayList<>();
+  private String description;
+
+  @OneToMany(mappedBy = "product", orphanRemoval = true)
+  private List<ProductOrderedHistory> productOrderedHistories;
+
+  //  @OneToMany(mappedBy = "product")
+  //  private List<ProductOrderedHistory> productOrderedHistories = new ArrayList<>();
 }

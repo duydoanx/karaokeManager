@@ -1,5 +1,6 @@
 package com.karaoke.manager.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.karaoke.manager.entity.support.Gender;
 import lombok.Data;
 
@@ -7,6 +8,9 @@ import lombok.Data;
 public class StaffDTO {
 
   private String username;
+
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private String password;
 
   private String firstName;
 
@@ -22,5 +26,7 @@ public class StaffDTO {
 
   private String email;
 
-  private RoleDTO role;
+  private String roleCodeName;
+
+  private Integer status;
 }

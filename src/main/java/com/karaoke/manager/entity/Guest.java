@@ -34,7 +34,10 @@ public class Guest extends BaseEntity {
   @Column(name = "phone_number", unique = true)
   private String phoneNumber;
 
+  @Column(unique = true)
   private String email;
+
+  private Integer status;
 
   @OneToMany(mappedBy = "guest")
   private List<RoomBooking> roomBookings = new ArrayList<>();

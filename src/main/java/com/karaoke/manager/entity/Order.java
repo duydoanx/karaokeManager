@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -33,4 +35,7 @@ public class Order extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "status_id")
   private OrderStatus status;
+
+  @OneToMany(mappedBy = "order")
+  private List<ProductOrderedHistory> productOrderedHistories = new ArrayList<>();
 }
