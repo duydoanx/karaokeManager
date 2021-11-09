@@ -17,7 +17,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Room extends BaseEntity {
 
+  public static final String ENABLE = "ENABLE";
+  public static final String DISABLE = "DISABLE";
+
+  @Column(unique = true)
   private String name;
+
+  @Column(name = "status_code", columnDefinition = "varchar(255) default 'ENABLE'")
+  private String statusCode;
 
   @ManyToOne
   @JoinColumn(name = "type_id")

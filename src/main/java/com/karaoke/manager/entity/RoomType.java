@@ -22,8 +22,10 @@ public class RoomType extends BaseEntity {
 
   private String name;
 
-  @Column(name = "code_name")
+  @Column(name = "code_name", unique = true)
   private String codeName;
+
+  private Double price;
 
   @OneToMany(mappedBy = "roomType")
   private List<Room> rooms = new ArrayList<>();

@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,6 +22,11 @@ public class Product extends BaseEntity {
 
   private Double price;
 
-  @OneToMany(mappedBy = "product")
-  private List<ProductOrderedHistory> productOrderedHistories = new ArrayList<>();
+  private String description;
+
+  @OneToMany(mappedBy = "product", orphanRemoval = true)
+  private List<ProductOrderedHistory> productOrderedHistories;
+
+  //  @OneToMany(mappedBy = "product")
+  //  private List<ProductOrderedHistory> productOrderedHistories = new ArrayList<>();
 }

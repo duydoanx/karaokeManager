@@ -8,8 +8,7 @@ public class SecurityConstant {
 
   public static final String REFRESH_TOKEN_SECRET_KEY = "terceshseerfer";
 
-  public static final Integer ACCESS_TOKEN_EXP_TIME = 30 * 60 * 1000;
+  public static final Long ACCESS_TOKEN_EXP_TIME = 24 * 60 * 60 * 1000L;
 
-  public static final Integer REFRESH_TOKEN_EXP_TIME = 24 * 60 * 60 * 1000;
-
+  public static final Long REFRESH_TOKEN_EXP_TIME = 60 * 24 * 60 * 60 * 1000L;
 }

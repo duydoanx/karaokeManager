@@ -3,4 +3,8 @@ package com.karaoke.manager.repository;
 import com.karaoke.manager.entity.Guest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GuestRepository extends JpaRepository<Guest, Long> {}
+import java.util.Optional;
+
+public interface GuestRepository extends JpaRepository<Guest, Long> {
+  Optional<Guest> findByPhoneNumber(String phoneNumber);
+}

@@ -1,11 +1,20 @@
 package com.karaoke.manager;
 
+import com.karaoke.manager.entity.RoomBooking;
+import com.karaoke.manager.service.RoomService;
+import com.karaoke.manager.service.TaskSchedulerService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
 public class ManagerApplication {
@@ -22,6 +31,22 @@ public class ManagerApplication {
   @Bean
   public ModelMapper modelMapper() {
     return new ModelMapper();
+  }
+
+  @Bean
+  @Order(value = 1)
+  CommandLineRunner autoCancelReservationRoom(
+      RoomService roomService,
+      TaskSchedulerService taskSchedulerService,
+      @Value("${application.revervation.time}") Long time) {
+    return args -> {
+      List<RoomBooking> reservationRooms = roomService.getReservationRooms();
+      reservationRooms.forEach(
+          roomBooking -> {
+            taskSchedulerService.addCancelReservationRoomTask(
+                roomBooking.getId(), new Date(roomBooking.getStartTime().getTime() + time));
+          });
+    };
   }
 
   //  @Bean

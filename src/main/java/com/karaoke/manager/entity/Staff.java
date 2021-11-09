@@ -44,10 +44,12 @@ public class Staff extends BaseEntity {
   private String address1;
   private String address2;
 
-  @Column(name = "phone_number")
+  @Column(name = "phone_number", unique = true)
   private String phoneNumber;
 
+  @Column(unique = true)
   private String email;
+
   private Integer status;
 
   @OneToMany(mappedBy = "staff")

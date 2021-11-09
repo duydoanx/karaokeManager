@@ -18,9 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderStatus extends BaseEntity {
+  public static final String PENDING = "PENDING";
+  public static final String DONE = "DONE";
+  public static final String CANCEL = "CANCEL";
 
-  @Column(name = "status_code")
-  private String statusCode;
+  @Column(name = "code_name")
+  private String codeName;
 
   private String description;
 
