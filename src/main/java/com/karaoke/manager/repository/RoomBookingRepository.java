@@ -1,6 +1,8 @@
 package com.karaoke.manager.repository;
 
 import com.karaoke.manager.entity.RoomBooking;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Timestamp;
@@ -17,7 +19,8 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
 
   boolean existsByBookingStatus_CodeNameAndRoom_Id(String codeName, Long id);
 
-  List<RoomBooking> findByRoom_Id(Long id);
+  Page<RoomBooking> findByRoom_Id(Long id, Pageable pageable);
 
-  List<RoomBooking> findByBookingStatus_CodeNameAndRoom_Id(String codeName, Long id);
+  Page<RoomBooking> findByBookingStatus_CodeNameAndRoom_Id(
+      String codeName, Long id, Pageable pageable);
 }

@@ -9,6 +9,9 @@ import com.karaoke.manager.repository.RoomBookingRepository;
 import com.karaoke.manager.repository.RoomRepository;
 import com.karaoke.manager.repository.RoomTypeRepository;
 import com.karaoke.manager.service.base.CrudBaseEntityService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -43,6 +46,16 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
   }
 
   @Override
+  public Page<Room> getEnableRooms(Pageable pageable) {
+    return roomRepository.findByStatusCode(Room.ENABLE, pageable);
+  }
+
+  @Override
+  public Room getDisableRoom(Long id) {
+    return roomRepository.findByIdAndStatusCode(id, Room.DISABLE);
+  }
+
+  @Override
   public RoomType getRoomTypeByCodeName(String codeName) {
     return roomTypeRepository.findByCodeName(codeName);
   }
@@ -53,8 +66,20 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
   }
 
   @Override
-  public List<Room> getRooms() {
-    return roomRepository.findAll();
+  public Page<Room> getRooms(Pageable pageable) {
+    return roomRepository.findAll(pageable);
+  }
+
+  @Override
+  public Page<Room> getEmptyRoomsAroundTime(
+      Timestamp startTime, Timestamp endTime, Pageable pageable) {
+    return roomRepository.findEmptyRooms(
+        BookingStatus.BOOKED, BookingStatus.PENDING, startTime, endTime, pageable);
+  }
+
+  @Override
+  public Page<Room> getBookedRoom(Pageable pageable) {
+    return roomRepository.findByRoomBookings_BookingStatus_CodeName(BookingStatus.BOOKED, pageable);
   }
 
   @Override
@@ -84,7 +109,7 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
   }
 
   @Override
-  public List<RoomBooking> getRoomBookingAroundTime(
+  public List<RoomBooking> getBusyRoomBookingAroundTime(
       Timestamp startTime, Timestamp endTime, Long roomId) {
     List<RoomBooking> roomBookings =
         getRoomBookingByBetweenTimeAndRoomId(startTime, endTime, roomId);
@@ -113,14 +138,23 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
 
   @Override
   public Optional<RoomBooking> getCurrentBookedByRoomId(Long roomId) {
-    List<RoomBooking> roomBookings =
-        roomBookingRepository.findByBookingStatus_CodeNameAndRoom_Id(BookingStatus.BOOKED, roomId);
+    Pageable pageable = PageRequest.of(0, 1);
+    Page<RoomBooking> roomBookings =
+        roomBookingRepository.findByBookingStatus_CodeNameAndRoom_Id(
+            BookingStatus.BOOKED, roomId, pageable);
 
-    return Optional.ofNullable(roomBookings.isEmpty() ? null : roomBookings.get(0));
+    return Optional.ofNullable(roomBookings.isEmpty() ? null : roomBookings.getContent().get(0));
   }
 
   @Override
-  public List<RoomBooking> getRoomBookingByRoomId(Long roomId) {
-    return roomBookingRepository.findByRoom_Id(roomId);
+  public Page<RoomBooking> getRoomBookingByRoomId(Long roomId, Pageable pageable) {
+    return roomBookingRepository.findByRoom_Id(roomId, pageable);
+  }
+
+  @Override
+  public Page<RoomBooking> getRoomBookingByRoomIdAndBookingStatus(
+      Long roomId, String bookingStatus, Pageable pageable) {
+    return roomBookingRepository.findByBookingStatus_CodeNameAndRoom_Id(
+        bookingStatus, roomId, pageable);
   }
 }

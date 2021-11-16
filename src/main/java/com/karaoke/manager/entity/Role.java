@@ -19,6 +19,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Role extends BaseEntity {
 
+  public static final String MANAGER = "MANAGER";
+  public static final String STAFF = "STAFF";
+  public static final String ACCOUNTANT = "ACCOUNTANT";
+
   public Role(String name, String codeName) {
     this.name = name;
     this.codeName = codeName;

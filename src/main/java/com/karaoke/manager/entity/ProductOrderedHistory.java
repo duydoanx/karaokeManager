@@ -10,23 +10,27 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product_ordered_history")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class ProductOrderedHistory{
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductOrderedHistory {
 
-    @EmbeddedId
-    private ProductOrderKey id;
+  @EmbeddedId private ProductOrderKey id;
 
-    private String description;
+  private String description;
 
-    private Double price;
+  private Integer quantity;
 
-    @ManyToOne
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
-    private Product product;
+  private Double price;
 
-    @ManyToOne
-    @MapsId("orderId")
-    @JoinColumn(name = "order_id")
-    private Order order;
+  @ManyToOne
+  @MapsId("productId")
+  @JoinColumn(name = "product_id")
+  private Product product;
+
+  @ManyToOne
+  @MapsId("orderId")
+  @JoinColumn(name = "order_id")
+  private Order order;
 }
