@@ -2,7 +2,7 @@ package com.karaoke.manager.dto;
 
 import com.karaoke.manager.entity.support.Gender;
 import com.karaoke.manager.validation.annotation.EnumContains;
-import com.karaoke.manager.validation.group.staff.Create;
+import com.karaoke.manager.validation.group.guest.CreateGuest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,28 +15,28 @@ public class GuestDTO {
 
   private Long id;
 
-  @NotBlank(groups = {Create.class})
+  @NotBlank(groups = {CreateGuest.class})
   private String firstName;
 
-  @NotBlank(groups = {Create.class})
+  @NotBlank(groups = {CreateGuest.class})
   private String lastName;
 
   @EnumContains(
       enumClass = Gender.class,
       message = "Invalid gender.",
-      groups = {Create.class})
+      groups = {CreateGuest.class})
   private String gender;
 
-  @NotBlank(groups = {Create.class})
+  @NotBlank(groups = {CreateGuest.class})
   private String address1;
 
   private String address2;
 
-  @NotBlank(groups = {Create.class})
+  @NotBlank(groups = {CreateGuest.class})
   private String phoneNumber;
 
-  @NotBlank(groups = {Create.class})
-  @Email(groups = {Create.class})
+  @NotBlank(groups = {CreateGuest.class})
+  @Email(groups = {CreateGuest.class})
   private String email;
 
   private Integer status;

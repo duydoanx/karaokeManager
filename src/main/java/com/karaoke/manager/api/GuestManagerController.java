@@ -5,8 +5,10 @@ import com.karaoke.manager.entity.Guest;
 import com.karaoke.manager.entity.support.ResponseApi;
 import com.karaoke.manager.mapper.GuestMapper;
 import com.karaoke.manager.service.GuestService;
+import com.karaoke.manager.validation.group.guest.CreateGuest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,8 @@ public class GuestManagerController {
 
   // API thêm mới khách hàng
   @PostMapping("/add")
-  public ResponseApi<GuestDTO> addGuest(@RequestBody GuestDTO guestDTO) {
+  public ResponseApi<GuestDTO> addGuest(
+      @RequestBody @Validated(CreateGuest.class) GuestDTO guestDTO) {
     Guest guest = guestMapper.guestDTOToGuest(guestDTO);
     guest.setStatus(1);
     Guest save = guestService.save(guest);
