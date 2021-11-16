@@ -48,9 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     CustomAuthenticationFilter customAuthenticationFilter =
         new CustomAuthenticationFilter(authenticationManagerBean());
-    customAuthenticationFilter.setFilterProcessesUrl("/api/auth");
+    customAuthenticationFilter.setFilterProcessesUrl("/auth");
     http.csrf().disable();
-    http.authorizeRequests().mvcMatchers("/api/auth/**").permitAll();
+    http.authorizeRequests().mvcMatchers("/auth/**").permitAll();
     http.authorizeRequests().mvcMatchers(AUTH_WHITELIST).permitAll();
     http.authorizeRequests().anyRequest().authenticated();
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

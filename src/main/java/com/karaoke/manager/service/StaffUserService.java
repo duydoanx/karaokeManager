@@ -3,12 +3,16 @@ package com.karaoke.manager.service;
 import com.karaoke.manager.entity.Permission;
 import com.karaoke.manager.entity.Role;
 import com.karaoke.manager.entity.Staff;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface StaffUserService {
 
-  Staff saveStaff(Staff staff);
+  Staff addStaff(Staff staff);
+
+  Staff updateStaff(Staff staff);
 
   Role saveRole(Role role);
 
@@ -20,5 +24,5 @@ public interface StaffUserService {
 
   Staff getStaff(String username);
 
-  List<Staff> getStaffs();
+  Page<Staff> getStaffs(Pageable pageable);
 }

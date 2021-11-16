@@ -5,8 +5,10 @@ import com.karaoke.manager.entity.RoomBooking;
 import com.karaoke.manager.service.GuestService;
 import com.karaoke.manager.service.RoomService;
 import com.karaoke.manager.service.StaffUserService;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(
@@ -18,6 +20,11 @@ public abstract class RoomBookingMapper {
   @Autowired protected GuestService guestService;
   @Autowired protected StaffUserService staffUserService;
 
+  @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+  @Mapping(
+      target = "orderId",
+      expression =
+          "java(roomBooking.getOrders().isEmpty() ? null : roomBooking.getOrders().get(0).getId())")
   @Mapping(target = "bookingId", source = "id")
   @Mapping(
       target = "statusCodeName",

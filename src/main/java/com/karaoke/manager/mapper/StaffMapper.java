@@ -14,10 +14,18 @@ public abstract class StaffMapper {
 
   @Autowired protected RoleService roleService;
 
+  @Mapping(target = "roomBookings", ignore = true)
+  @Mapping(target = "modifiedBy", ignore = true)
+  @Mapping(target = "modifiedAt", ignore = true)
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "createdBy", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "password", ignore = true)
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
   @Mapping(
       target = "role",
-      expression = "java(roleService.getRoleByCodeName(staffDTO.getRoleCodeName()))")
+      expression =
+          "java(staffDTO.getRoleCodeName() != null ? roleService.getRoleByCodeName(staffDTO.getRoleCodeName()) : staff.getRole())")
   public abstract void updateStaffFromStaffDTO(StaffDTO staffDTO, @MappingTarget Staff staff);
 
   @Named("roleToRoleCodeName")

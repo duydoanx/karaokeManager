@@ -33,7 +33,7 @@ public class AuthController {
   private final StaffUserService staffUserService;
 
   @PostMapping(
-      value = "/api/auth",
+      value = "/auth",
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public void login(@RequestPart String username, @RequestPart String password)
@@ -67,7 +67,7 @@ public class AuthController {
                                   + "}")
                     }))
       })
-  @GetMapping("/api/auth/refresh")
+  @GetMapping("/auth/refresh")
   public ResponseApi<Map<String, String>> refreshToken(
       @Parameter(hidden = true) @RequestHeader(AUTHORIZATION) String rawToken) throws IOException {
     if (rawToken != null && rawToken.startsWith("Bearer ")) {
@@ -77,6 +77,7 @@ public class AuthController {
         User user =
             TokenUtils.validVerifierObjectToUser(
                 (TokenUtils.ValidVerifierObject) verifier, staffUserService::getStaff);
+
         Map<String, String> body = new HashMap<>();
         body.put("access_token", TokenUtils.accessTokenGenerate(user));
         return new ResponseApi<Map<String, String>>(HttpStatus.OK.value(), body);

@@ -1,5 +1,7 @@
 package com.karaoke.manager.service.base;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -15,6 +17,11 @@ public abstract class CrudBaseEntityService<E> implements CrudEntityService<E> {
   @Override
   public Optional<E> findById(Long id) {
     return repository.findById(id);
+  }
+
+  @Override
+  public Page<E> findAll(Pageable pageable) {
+    return repository.findAll(pageable);
   }
 
   @Override

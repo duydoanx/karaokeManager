@@ -94,6 +94,12 @@ public class TokenUtils {
 
     String username = verifierReturnObject.getUsername();
     Staff staff = getStaff.get(username);
+    if (staff == null) {
+      throw new RuntimeException("Username does not exist. Please refresh the token.");
+    }
+    if (Objects.equals(staff.getStatus(), Staff.DISABLE)) {
+      throw new RuntimeException("Staff has been disabled.");
+    }
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     authorities.add(new SimpleGrantedAuthority("ROLE_" + staff.getRole().getCodeName()));
     staff

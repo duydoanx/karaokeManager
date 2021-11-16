@@ -8,6 +8,8 @@ import com.karaoke.manager.repository.RoleRepository;
 import com.karaoke.manager.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,11 +45,25 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
   }
 
   @Override
-  public Staff saveStaff(Staff staff) {
+  public Staff addStaff(Staff staff) {
     log.info("Saving staff {}", staff.getUsername());
+    if (staffRepository.existsByUsername(staff.getUsername())) {
+      throw new RuntimeException("Duplicate username.");
+    }
+    if (staffRepository.existsByPhoneNumber(staff.getPhoneNumber())) {
+      throw new RuntimeException("Duplicate phone number.");
+    }
+    if (staffRepository.existsByEmail(staff.getEmail())) {
+      throw new RuntimeException("Duplicate email.");
+    }
     if (staff.getPassword() != null && !staff.getPassword().isEmpty()) {
       staff.setPassword(passwordEncoder.encode(staff.getPassword()));
     }
+    return staffRepository.save(staff);
+  }
+
+  @Override
+  public Staff updateStaff(Staff staff) {
     return staffRepository.save(staff);
   }
 
@@ -89,8 +105,8 @@ public class SimpleStaffUserService implements StaffUserService, UserDetailsServ
   }
 
   @Override
-  public List<Staff> getStaffs() {
+  public Page<Staff> getStaffs(Pageable pageable) {
     log.info("Fetching staffs");
-    return staffRepository.findAll();
+    return staffRepository.findAll(pageable);
   }
 }

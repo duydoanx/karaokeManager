@@ -19,6 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomType extends BaseEntity {
+  public static final String NORMAL = "NORMAL";
+  public static final String VIP = "VIP";
 
   private String name;
 
