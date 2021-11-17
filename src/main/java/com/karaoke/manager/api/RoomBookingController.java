@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -190,5 +191,48 @@ public class RoomBookingController {
     return new ResponseApi<>(
         HttpStatus.OK.value(),
         roomBookingMapper.roomBookingToRoomBookingDTO(roomBookingOptional.get()));
+  }
+
+  // API xem danh sách phiếu đặt phòng theo sdt khách hàng
+  @GetMapping("/phone-number/{phoneNumber}")
+  public ResponseApi<ResponsePage> getRoomBookingsByPhoneNumber(
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
+      @PathVariable String phoneNumber) {
+    Pageable pageable =
+        PageRequest.of(
+            page,
+            size,
+            sort.equals("ASC") ? Sort.by("id").ascending() : Sort.by("id").descending());
+    Page<RoomBooking> roomBookings =
+        roomService.getRoomBookingByGuestPhoneNumber(phoneNumber, pageable);
+    return new ResponseApi<>(
+        HttpStatus.OK.value(),
+        new ResponsePage(
+            roomBookings.getContent().stream().map(roomBookingMapper::roomBookingToRoomBookingDTO),
+            page,
+            roomBookings.getTotalPages()));
+  }
+
+  // API xem danh sách phiếu đặt phòng theo mã khách hàng
+  @GetMapping("/guest-id/{guestId}")
+  public ResponseApi<ResponsePage> getRoomBookingsByGuestId(
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
+      @PathVariable Long guestId) {
+    Pageable pageable =
+        PageRequest.of(
+            page,
+            size,
+            sort.equals("ASC") ? Sort.by("id").ascending() : Sort.by("id").descending());
+    Page<RoomBooking> roomBookings = roomService.getRoomBookingByGuestId(guestId, pageable);
+    return new ResponseApi<>(
+        HttpStatus.OK.value(),
+        new ResponsePage(
+            roomBookings.getContent().stream().map(roomBookingMapper::roomBookingToRoomBookingDTO),
+            page,
+            roomBookings.getTotalPages()));
   }
 }

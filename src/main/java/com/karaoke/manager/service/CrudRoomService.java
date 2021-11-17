@@ -131,6 +131,16 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
   }
 
   @Override
+  public Page<RoomBooking> getRoomBookingByGuestPhoneNumber(String phoneNumber, Pageable pageable) {
+    return roomBookingRepository.findByGuest_PhoneNumber(phoneNumber, pageable);
+  }
+
+  @Override
+  public Page<RoomBooking> getRoomBookingByGuestId(Long guestId, Pageable pageable) {
+    return roomBookingRepository.findByGuest_Id(guestId, pageable);
+  }
+
+  @Override
   public Boolean roomIsAvailable(Long roomId) {
     return !roomBookingRepository.existsByBookingStatus_CodeNameAndRoom_Id(
         BookingStatus.BOOKED, roomId);
