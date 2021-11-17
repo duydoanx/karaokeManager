@@ -18,6 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Guest extends BaseEntity {
 
+  public static final Integer ENABLE = 1;
+  public static final Integer DISABLE = 0;
+
   @Column(name = "first_name")
   private String firstName;
 

@@ -49,6 +49,10 @@ public interface RoomService extends CrudEntityService<Room> {
 
   RoomBooking saveRoomBooking(RoomBooking roomBooking);
 
+  Page<RoomBooking> getRoomBookingByGuestPhoneNumber(String phoneNumber, Pageable pageable);
+
+  Page<RoomBooking> getRoomBookingByGuestId(Long guestId, Pageable pageable);
+
   Boolean roomIsAvailable(Long roomId);
 
   Optional<RoomBooking> getCurrentBookedByRoomId(Long roomId);

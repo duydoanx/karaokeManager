@@ -6,7 +6,8 @@ import com.karaoke.manager.entity.support.ResponseApi;
 import com.karaoke.manager.entity.support.ResponsePage;
 import com.karaoke.manager.mapper.StaffMapper;
 import com.karaoke.manager.service.StaffUserService;
-import com.karaoke.manager.validation.group.staff.Create;
+import com.karaoke.manager.validation.group.staff.CreateStaff;
+import com.karaoke.manager.validation.group.staff.UpdateStaff;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -78,7 +79,7 @@ public class StaffController {
   @PreAuthorize("hasAuthority(@permissionSupport.writeStaff())")
   @PostMapping()
   public ResponseApi<StaffDTO> createStaff(
-      @RequestBody @Validated(Create.class) StaffDTO staffDTO) {
+      @RequestBody @Validated(CreateStaff.class) StaffDTO staffDTO) {
     staffDTO.setStatus(Staff.ENABLE);
 
     return new ResponseApi<>(
@@ -94,7 +95,7 @@ public class StaffController {
   @PreAuthorize("hasAuthority(@permissionSupport.writeStaff())")
   @PostMapping("/update/{username}")
   public ResponseApi<StaffDTO> updateStaff(
-      @RequestBody StaffDTO staffDTO, @PathVariable String username) {
+      @RequestBody @Validated(UpdateStaff.class) StaffDTO staffDTO, @PathVariable String username) {
     Staff staff = staffUserService.getStaff(username);
     staffMapper.updateStaffFromStaffDTO(staffDTO, staff);
     return new ResponseApi<>(HttpStatus.OK.value(), staffMapper.staffToStaffDTO(staff));

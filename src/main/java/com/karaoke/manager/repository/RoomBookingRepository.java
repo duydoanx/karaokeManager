@@ -23,4 +23,8 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
 
   Page<RoomBooking> findByBookingStatus_CodeNameAndRoom_Id(
       String codeName, Long id, Pageable pageable);
+
+  Page<RoomBooking> findByGuest_PhoneNumber(String phoneNumber, Pageable pageable);
+
+  Page<RoomBooking> findByGuest_Id(Long id, Pageable pageable);
 }
