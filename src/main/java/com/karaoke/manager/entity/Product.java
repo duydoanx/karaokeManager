@@ -18,6 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Product extends BaseEntity {
 
+  public static final Integer ENABLE = 1;
+  public static final Integer DISABLE = 0;
+
   private String name;
 
   private Double price;
@@ -27,6 +30,5 @@ public class Product extends BaseEntity {
   @OneToMany(mappedBy = "product", orphanRemoval = true)
   private List<ProductOrderedHistory> productOrderedHistories;
 
-  //  @OneToMany(mappedBy = "product")
-  //  private List<ProductOrderedHistory> productOrderedHistories = new ArrayList<>();
+  private Integer status;
 }
