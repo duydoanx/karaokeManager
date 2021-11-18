@@ -47,9 +47,9 @@ VALUES ('guest first name 1', 'guest last name 1', 0, 'ha noi', 'sai gon', '0123
 -- ---------------------------------------------------------------------------------------------------------------------
 #Room type
 INSERT
-INTO room_types(code_name, name)
-values ('NORMAL', 'Normal room type'),
-       ('VIP', 'VIP room type');
+INTO room_types(code_name, name, price)
+values ('NORMAL', 'Normal room type', 60000),
+       ('VIP', 'VIP room type', 100000);
 -- ---------------------------------------------------------------------------------------------------------------------
 #Room sample
 INSERT INTO rooms(name, status_code, type_id)
@@ -70,13 +70,13 @@ values ('BOOKED', 'Phòng đã được đặt, hiện đang dùng'),
        ('CANCEL', 'Trạng thái đặt phòng là huỷ');
 -- ---------------------------------------------------------------------------------------------------------------------
 #Products
-INSERT INTO products(name, description, price)
-VALUES ('Khăn ướt', 'Khăn ướt', 5000),
-       ('Khăn khô', 'Khăn khô', 2000),
-       ('Trái cây 1', 'Trái cây combo 1', 100000),
-       ('Trái cây 2', 'Trái cây combo 2', 150000),
-       ('Bia Tiger thường', 'Bia tiger xanh', 12000),
-       ('Bia Tiger bạc', 'Bia tiger bạc', 15000);
+INSERT INTO products(name, description, price, status)
+VALUES ('Khăn ướt', 'Khăn ướt', 5000, 1),
+       ('Khăn khô', 'Khăn khô', 2000, 1),
+       ('Trái cây 1', 'Trái cây combo 1', 100000, 1),
+       ('Trái cây 2', 'Trái cây combo 2', 150000, 1),
+       ('Bia Tiger thường', 'Bia tiger xanh', 12000, 1),
+       ('Bia Tiger bạc', 'Bia tiger bạc', 15000, 1);
 -- ---------------------------------------------------------------------------------------------------------------------
 #Order status
 INSERT INTO order_status(code_name, description)
