@@ -18,7 +18,7 @@ public class OrderDTO {
 
   private Double discountMoney;
 
-  private Double total;
+  private String total;
 
   private List<ProductOrderedHistoryDTO> products;
 }
