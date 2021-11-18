@@ -24,7 +24,8 @@ public class ManagerApplication {
   }
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder(@Value("${spring.datasource.url}") String datasource) {
+    System.out.println(datasource);
     return new BCryptPasswordEncoder();
   }
 
