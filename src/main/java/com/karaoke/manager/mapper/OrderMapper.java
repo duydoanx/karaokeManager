@@ -18,5 +18,8 @@ public abstract class OrderMapper {
       expression =
           "java(order.getProductOrderedHistories().stream().map(productOrderedHistoryMapper::productOrderedHistoryToProductOrderedHistoryDTO).collect(java.util.stream.Collectors.toList()))")
   @Mapping(target = "bookingId", expression = "java(order.getRoomBooking().getId())")
+  @Mapping(
+      target = "total",
+      expression = "java(java.math.BigDecimal.valueOf(order.getTotal()).toPlainString())")
   public abstract OrderDTO orderToOrderDTO(Order order);
 }

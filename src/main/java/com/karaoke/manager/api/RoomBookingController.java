@@ -94,6 +94,8 @@ public class RoomBookingController {
     Order order = new Order();
     order.setRoomBooking(roomBooking);
     order.setStatus(orderService.getOrderStatusByCodeName(OrderStatus.PENDING));
+    order.setDiscountMoney(0D);
+    order.setDiscountPercent(0D);
     orderService.save(order);
 
     return new ResponseApi<>(
@@ -145,6 +147,8 @@ public class RoomBookingController {
     Order order = new Order();
     order.setRoomBooking(roomBooking);
     order.setStatus(orderService.getOrderStatusByCodeName(OrderStatus.PENDING));
+    order.setDiscountMoney(0D);
+    order.setDiscountPercent(0D);
     orderService.save(order);
 
     return new ResponseApi<>(HttpStatus.OK.value());

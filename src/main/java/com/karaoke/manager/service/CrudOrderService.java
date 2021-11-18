@@ -8,9 +8,13 @@ import com.karaoke.manager.repository.OrderRepository;
 import com.karaoke.manager.repository.OrderStatusRepository;
 import com.karaoke.manager.repository.ProductOrderedHistoryRepository;
 import com.karaoke.manager.service.base.CrudBaseEntityService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -50,5 +54,12 @@ public class CrudOrderService extends CrudBaseEntityService<Order> implements Or
   public ProductOrderedHistory saveProductOrderedHistory(
       ProductOrderedHistory productOrderedHistory) {
     return productOrderedHistoryRepository.save(productOrderedHistory);
+  }
+
+  @Override
+  public Page<Order> getOrdersByDay(Date day, Pageable pageable) {
+    Timestamp start = new Timestamp(day.getTime());
+    Timestamp end = new Timestamp(day.getTime() + ((24 * 60 * 60) - 1) * 1000);
+    return orderRepository.findByCreatedAtBetween(start, end, pageable);
   }
 }
