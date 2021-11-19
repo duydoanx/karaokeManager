@@ -20,6 +20,7 @@ public abstract class OrderMapper {
   @Mapping(target = "bookingId", expression = "java(order.getRoomBooking().getId())")
   @Mapping(
       target = "total",
-      expression = "java(java.math.BigDecimal.valueOf(order.getTotal()).toPlainString())")
+      expression =
+          "java(order.getTotal() == null ? null : java.math.BigDecimal.valueOf(order.getTotal()).toPlainString())")
   public abstract OrderDTO orderToOrderDTO(Order order);
 }
