@@ -20,6 +20,6 @@ public class EnumContainsStringValidator implements ConstraintValidator<EnumCont
 
   @Override
   public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-    return AVAILABLE_ENUM_NAMES.contains(s);
+    return s == null || AVAILABLE_ENUM_NAMES.contains(s);
   }
 }

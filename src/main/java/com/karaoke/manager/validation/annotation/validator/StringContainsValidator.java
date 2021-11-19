@@ -17,6 +17,6 @@ public class StringContainsValidator implements ConstraintValidator<StringContai
 
   @Override
   public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-    return AVAILABLE_STRINGS.contains(s);
+    return s == null || AVAILABLE_STRINGS.contains(s);
   }
 }
