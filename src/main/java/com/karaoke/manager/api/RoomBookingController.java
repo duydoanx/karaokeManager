@@ -148,7 +148,7 @@ public class RoomBookingController {
     }
 
     // Kiểm tra xem phòng có đang dùng không
-    if (roomService.getCurrentBookedByRoomId(roomBooking.getId()).isPresent()) {
+    if (roomService.getCurrentBookedByRoomId(roomBooking.getRoom().getId()).isPresent()) {
       throw new RuntimeException("The room is on service.");
     }
 
