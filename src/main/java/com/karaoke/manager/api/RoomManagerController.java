@@ -9,12 +9,14 @@ import com.karaoke.manager.entity.support.ResponseApi;
 import com.karaoke.manager.entity.support.ResponsePage;
 import com.karaoke.manager.mapper.RoomMapper;
 import com.karaoke.manager.service.RoomService;
+import com.karaoke.manager.validation.group.room.CreateRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -90,7 +92,8 @@ public class RoomManagerController {
 
   // API thêm phòng mới
   @PostMapping("/add")
-  public ResponseApi<Map<String, Long>> addRoom(@RequestBody RoomDTO roomDTO) {
+  public ResponseApi<Map<String, Long>> addRoom(
+      @RequestBody @Validated(CreateRoom.class) RoomDTO roomDTO) {
     roomDTO.setStatusCode(Room.ENABLE);
     Room room = roomService.save(roomMapper.roomDTOToRoom(roomDTO));
     return new ResponseApi<>(HttpStatus.OK.value(), Collections.singletonMap("id", room.getId()));
