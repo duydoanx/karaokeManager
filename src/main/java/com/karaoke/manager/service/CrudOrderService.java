@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,5 +62,13 @@ public class CrudOrderService extends CrudBaseEntityService<Order> implements Or
     Timestamp start = new Timestamp(day.getTime());
     Timestamp end = new Timestamp(day.getTime() + ((24 * 60 * 60) - 1) * 1000);
     return orderRepository.findByCreatedAtBetween(start, end, pageable);
+  }
+
+  @Override
+  public Double revenueAroundTime(Timestamp startTime, Timestamp endTime) {
+    List<Order> orders =
+        orderRepository.findByCreatedAtBetweenAndStatus_CodeName(
+            startTime, endTime, OrderStatus.DONE);
+    return orders.stream().mapToDouble(Order::getTotal).sum();
   }
 }
