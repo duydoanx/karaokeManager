@@ -182,13 +182,16 @@ public class RoomBookingController {
     List<String> var1 =
         Arrays.asList(
             BookingStatus.BOOKED, BookingStatus.PENDING, BookingStatus.DONE, BookingStatus.CANCEL);
+    if (!roomService.findById(roomId).isPresent()) {
+      throw new RuntimeException("Unable to find room.");
+    }
     Page<RoomBooking> roomBookings;
     if (var1.contains(status.toUpperCase())) {
       roomBookings = roomService.getRoomBookingByRoomIdAndBookingStatus(roomId, status, pageable);
     } else if (status.equalsIgnoreCase("ALL")) {
       roomBookings = roomService.getRoomBookingByRoomId(roomId, pageable);
     } else {
-      throw new RoomBookingException("Can not find status code", null);
+      throw new RoomBookingException("Can not find status code or status code is malformed.", null);
     }
     ResponsePage responsePage =
         new ResponsePage(
