@@ -7,9 +7,8 @@ import com.karaoke.manager.entity.support.ResponsePage;
 import com.karaoke.manager.exception.RoomBookingException;
 import com.karaoke.manager.mapper.ProductOrderedHistoryMapper;
 import com.karaoke.manager.mapper.RoomBookingMapper;
-import com.karaoke.manager.mapper.RoomMapper;
+import com.karaoke.manager.service.GuestService;
 import com.karaoke.manager.service.OrderService;
-import com.karaoke.manager.service.ProductService;
 import com.karaoke.manager.service.RoomService;
 import com.karaoke.manager.service.TaskSchedulerService;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,7 @@ public class RoomBookingController {
 
   private final RoomService roomService;
   private final OrderService orderService;
-  private final ProductService productService;
-  private final RoomMapper roomMapper;
+  private final GuestService guestService;
   private final RoomBookingMapper roomBookingMapper;
   private final ProductOrderedHistoryMapper productOrderedHistoryMapper;
   private final TaskSchedulerService taskSchedulerService;
@@ -228,6 +226,9 @@ public class RoomBookingController {
             page,
             size,
             sort.equals("ASC") ? Sort.by("id").ascending() : Sort.by("id").descending());
+    if (guestService.getGuestByPhoneNumber(phoneNumber) == null) {
+      throw new RuntimeException("Unable to find guest.");
+    }
     Page<RoomBooking> roomBookings =
         roomService.getRoomBookingByGuestPhoneNumber(phoneNumber, pageable);
     return new ResponseApi<>(
@@ -250,6 +251,9 @@ public class RoomBookingController {
             page,
             size,
             sort.equals("ASC") ? Sort.by("id").ascending() : Sort.by("id").descending());
+    if (!guestService.findById(guestId).isPresent()) {
+      throw new RuntimeException("Unable to find guest.");
+    }
     Page<RoomBooking> roomBookings = roomService.getRoomBookingByGuestId(guestId, pageable);
     return new ResponseApi<>(
         HttpStatus.OK.value(),
