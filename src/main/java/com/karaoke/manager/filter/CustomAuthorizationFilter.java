@@ -33,7 +33,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    if (!request.getServletPath().equals("/auth/refresh")) {
+    if (!request.getServletPath().equals("/auth/refresh")
+        && !request.getServletPath().equals("/auth")) {
 
       String rawToken = request.getHeader(AUTHORIZATION);
       if (rawToken != null && rawToken.startsWith("Bearer ")) {
@@ -42,9 +43,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             TokenUtils.verifyToken(rawToken, SecurityConstant.ACCESS_TOKEN_SECRET_KEY);
 
         if (verifier.isValid()) {
-          //        User user =
-          //            TokenUtils.validVerifierObjectToUser(
-          //                (TokenUtils.ValidVerifierObject) verifier, staffUserService::getStaff);
           Staff staff =
               staffUserService.getStaff(((TokenUtils.ValidVerifierObject) verifier).getUsername());
 
@@ -71,7 +69,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
               (TokenUtils.InvalidVerifierObject) verifier, response);
         }
       } else {
-        filterChain.doFilter(request, response);
+        HttpSupport.writeErrorMessage(response, "Unable to find auth.", HttpStatus.UNAUTHORIZED);
       }
     } else {
       filterChain.doFilter(request, response);
