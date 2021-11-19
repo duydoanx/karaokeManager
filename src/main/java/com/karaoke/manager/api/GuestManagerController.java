@@ -54,6 +54,10 @@ public class GuestManagerController {
     if (guest == null) {
       throw new RuntimeException("Unable to find guest.");
     }
+    if (guestDTO.getEmail() != null
+        && guestService.getGuestByEmail(guestDTO.getEmail()).isPresent()) {
+      throw new RuntimeException("Email already exists.");
+    }
     guestMapper.updateGuestFromGuestDTO(guestDTO, guest);
     guestService.save(guest);
     return new ResponseApi<>(HttpStatus.OK.value());
