@@ -132,6 +132,9 @@ public class StaffController {
     }
     String password = params.get("password");
     Staff staff = staffUserService.getStaff(username);
+    if (staff == null) {
+      throw new RuntimeException("Unable to find staff.");
+    }
     staff.setPassword(passwordEncoder.encode(password));
     staffUserService.updateStaff(staff);
     return new ResponseApi<>(HttpStatus.OK.value());
