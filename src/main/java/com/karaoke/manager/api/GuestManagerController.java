@@ -32,6 +32,13 @@ public class GuestManagerController {
   @PostMapping("/add")
   public ResponseApi<GuestDTO> addGuest(
       @RequestBody @Validated(CreateGuest.class) GuestDTO guestDTO) {
+    if (guestService.getGuestByPhoneNumber(guestDTO.getPhoneNumber()) != null) {
+      throw new RuntimeException("Phone number already exists.");
+    }
+    if (guestService.getGuestByEmail(guestDTO.getEmail()).isPresent()) {
+      throw new RuntimeException("Email already exists.");
+    }
+
     Guest guest = guestMapper.guestDTOToGuest(guestDTO);
     guest.setStatus(1);
     Guest save = guestService.save(guest);
@@ -46,6 +53,10 @@ public class GuestManagerController {
     Guest guest = guestService.getGuestByPhoneNumber(phoneNumber);
     if (guest == null) {
       throw new RuntimeException("Unable to find guest.");
+    }
+    if (guestDTO.getEmail() != null
+        && guestService.getGuestByEmail(guestDTO.getEmail()).isPresent()) {
+      throw new RuntimeException("Email already exists.");
     }
     guestMapper.updateGuestFromGuestDTO(guestDTO, guest);
     guestService.save(guest);
