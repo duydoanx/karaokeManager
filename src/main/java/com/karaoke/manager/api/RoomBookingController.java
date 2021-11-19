@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -140,6 +141,20 @@ public class RoomBookingController {
           "The room is not in pending status",
           roomBookingMapper.roomBookingToRoomBookingDTO(roomBooking));
     }
+    // Kiểm tra xem thời gian đặt phòng tối thiểu.
+    Timestamp now = new Timestamp(System.currentTimeMillis());
+    Timestamp startTime = new Timestamp(roomBooking.getStartTime().getTime() - 30 * 60 * 1000);
+    if (!startTime.before(now)) {
+      throw new RuntimeException(
+          "Can not check-in now. Minimum time is 30 minutes earlier than reserved time.");
+    }
+
+    // Kiểm tra xem phòng có đang dùng không
+    if (roomService.getCurrentBookedByRoomId(roomBooking.getId()).isPresent()) {
+      throw new RuntimeException("The room is on service.");
+    }
+
+    roomBooking.setStartTime(new Timestamp(System.currentTimeMillis()));
     roomBooking.setBookingStatus(roomService.getBookingStatusByCodeName(BookingStatus.BOOKED));
     roomService.saveRoomBooking(roomBooking);
 
@@ -151,7 +166,8 @@ public class RoomBookingController {
     order.setDiscountPercent(0D);
     orderService.save(order);
 
-    return new ResponseApi<>(HttpStatus.OK.value());
+    return new ResponseApi<>(
+        HttpStatus.OK.value(), roomBookingMapper.roomBookingToRoomBookingDTO(roomBooking));
   }
 
   // API xem danh sách đặt phòng của phòng hiện tại
