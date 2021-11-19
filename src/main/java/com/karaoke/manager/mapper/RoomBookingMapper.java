@@ -54,7 +54,8 @@ public abstract class RoomBookingMapper {
       expression = "java(roomService.findById(roomBookingDTO.getRoomId()).get())")
   @Mapping(
       target = "guest",
-      expression = "java(guestService.getGuestByPhoneNumber(roomBookingDTO.getGuestPhoneNumber()))")
+      expression =
+          "java(guestService.getGuestPhoneNumberForMapper(roomBookingDTO.getGuestPhoneNumber()))")
   @Mapping(
       target = "bookingStatus",
       expression =
