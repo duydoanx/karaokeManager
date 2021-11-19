@@ -8,6 +8,7 @@ import com.karaoke.manager.service.base.CrudEntityService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
@@ -21,4 +22,6 @@ public interface OrderService extends CrudEntityService<Order> {
   ProductOrderedHistory saveProductOrderedHistory(ProductOrderedHistory productOrderedHistory);
 
   Page<Order> getOrdersByDay(Date date, Pageable pageable);
+
+  Double revenueAroundTime(Timestamp startTime, Timestamp endTime);
 }
