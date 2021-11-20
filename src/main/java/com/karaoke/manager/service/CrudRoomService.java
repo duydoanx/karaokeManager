@@ -167,4 +167,14 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
     return roomBookingRepository.findByBookingStatus_CodeNameAndRoom_Id(
         bookingStatus, roomId, pageable);
   }
+
+  @Override
+  public Page<RoomType> getRoomTypes(Pageable pageable) {
+    return roomTypeRepository.findAll(pageable);
+  }
+
+  @Override
+  public RoomType saveRoomType(RoomType roomType) {
+    return roomTypeRepository.save(roomType);
+  }
 }
