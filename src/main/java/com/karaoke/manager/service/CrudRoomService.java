@@ -141,6 +141,11 @@ public class CrudRoomService extends CrudBaseEntityService<Room> implements Room
   }
 
   @Override
+  public Boolean existRoomBookingByStatusCodeAndRoomId(String statusCode, Long roomId) {
+    return roomBookingRepository.existsByBookingStatus_CodeNameAndRoom_Id(statusCode, roomId);
+  }
+
+  @Override
   public Boolean roomIsAvailable(Long roomId) {
     return !roomBookingRepository.existsByBookingStatus_CodeNameAndRoom_Id(
         BookingStatus.BOOKED, roomId);

@@ -15,11 +15,18 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class RoomDTO {
 
+  public static final String RESERVED = "RESERVED";
+  public static final String BOOKED = "BOOKED";
+  public static final String EMPTY = "EMPTY";
+
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private Long id;
 
   @NotBlank(groups = {CreateRoom.class})
   private String name;
+
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private String roomBookedStatus;
 
   @StringContains(
       groups = {UpdateRoom.class},
