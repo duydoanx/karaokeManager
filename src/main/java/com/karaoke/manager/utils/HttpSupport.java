@@ -19,7 +19,6 @@ public class HttpSupport {
 
   public static void writeErrorMessage(
       HttpServletResponse response, String message, HttpStatus status) throws IOException {
-    response.setStatus(status.value());
     writeJsonMapObjectValue(response, new ResponseApi<>(status.value(), message));
   }
 }

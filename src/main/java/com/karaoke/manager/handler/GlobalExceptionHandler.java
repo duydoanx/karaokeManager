@@ -11,7 +11,6 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,28 +22,24 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(RuntimeException.class)
   @ResponseBody
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseApi<?> runtimeExceptionHandler(RuntimeException runtimeException) {
     return new ResponseApi<>(HttpStatus.BAD_REQUEST.value(), runtimeException.getMessage());
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseBody
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseApi<?> runtimeExceptionHandler(HttpMessageNotReadableException runtimeException) {
     return new ResponseApi<>(HttpStatus.BAD_REQUEST.value(), "Check parameters.");
   }
 
   @ExceptionHandler(value = {MissingRequestValueException.class})
   @ResponseBody
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseApi<?> handleConflict(MissingRequestValueException ex) {
     return new ResponseApi<>(HttpStatus.BAD_REQUEST.value(), "Check requirement parameters");
   }
 
   @ExceptionHandler(value = {MethodArgumentNotValidException.class})
   @ResponseBody
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ResponseApi<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
     List<FieldError> fieldError = ex.getFieldErrors();
     Map<String, String> errorData = new HashMap<>();
