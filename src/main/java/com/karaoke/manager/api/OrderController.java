@@ -122,7 +122,7 @@ public class OrderController {
   }
 
   // API xem hoá đơn theo ngay
-  @GetMapping("/day")
+  @PostMapping("/day")
   public ResponseApi<ResponsePage> getOrdersByDay(
       @RequestBody Map<String, String> date,
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
