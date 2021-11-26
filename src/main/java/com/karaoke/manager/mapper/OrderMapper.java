@@ -14,6 +14,9 @@ public abstract class OrderMapper {
   @Autowired protected ProductOrderedHistoryMapper productOrderedHistoryMapper;
 
   @Mapping(
+      target = "guestPhoneNumber",
+      expression = "java(order.getRoomBooking().getGuest().getPhoneNumber())")
+  @Mapping(
       target = "products",
       expression =
           "java(order.getProductOrderedHistories().stream().map(productOrderedHistoryMapper::productOrderedHistoryToProductOrderedHistoryDTO).collect(java.util.stream.Collectors.toList()))")

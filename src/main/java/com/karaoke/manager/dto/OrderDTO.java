@@ -12,6 +12,8 @@ public class OrderDTO {
 
   private Long bookingId;
 
+  private String guestPhoneNumber;
+
   private Double numberHoursBooked;
 
   private Double discountPercent;
